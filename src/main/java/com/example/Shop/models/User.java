@@ -1,5 +1,8 @@
 package com.example.Shop.models;
 
+import com.example.Shop.config.enums.RoleEnum;
+import org.springframework.lang.Nullable;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -10,7 +13,7 @@ import javax.validation.constraints.Size;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_user ", unique = true, nullable = false)
+    @Column(name = "id_user", unique = true, nullable = false)
     private Long id;
 
     @NotNull(message = "Это обязательное поле")
@@ -33,12 +36,45 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
-    public User() {
-    }
+    @NotNull(message = "Это обязательное поле")
+    @NotBlank(message = "Поле не может быть пустым")
+    @Size(min = 2, message = "Минимальная длина - 2 символа")
+    @Size(max = 30, message = "Максимальная длина - 30 символов")
+    @Pattern(regexp = "^.*[а-яА-Я].*$", message = "Фамилия должна состоять только из букв")
+    @Column(name = "surname", nullable = false)
+    private String surname;
 
-    public User(String login, String password) {
+    @NotNull(message = "Это обязательное поле")
+    @NotBlank(message = "Поле не может быть пустым")
+    @Size(min = 2, message = "Минимальная длина - 2 символа")
+    @Size(max = 30, message = "Максимальная длина - 30 символов")
+    @Pattern(regexp = "^.*[а-яА-Я].*$", message = "Имя должно состоять только из букв")
+    @Column(name = "name", nullable = true)
+    private String name;
+
+    @Pattern(regexp = "^.*[а-яА-Я].*$", message = "Отчество должно состоять только из букв")
+    @Size(max = 30, message = "Максимальная длина - 30 символов")
+    @Nullable
+    @Pattern(regexp = "^.*[а-яА-Я].*$", message = "Имя должно состоять только из букв")
+    private String patronymic;
+
+    @Enumerated(value = EnumType.STRING)
+    private RoleEnum role;
+
+    public User(String login, String password, String surname, String name, @Nullable String patronymic, RoleEnum role) {
         this.login = login;
         this.password = password;
+        this.surname = surname;
+        this.name = name;
+        this.patronymic = patronymic;
+        this.role = role;
+    }
+
+    public User fromModel(User model){
+        return new User(model.login, model.password, model.surname, model.name, model.patronymic, model.role);
+    }
+
+    public User() {
     }
 
     public Long getId() {
@@ -63,5 +99,42 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Nullable
+    public String getPatronymic() {
+        return patronymic;
+    }
+
+    public void setPatronymic(@Nullable String patronymic) {
+        this.patronymic = patronymic;
+    }
+
+    public RoleEnum getRole() {
+        return role;
+    }
+
+    public void setRole(RoleEnum role) {
+        this.role = role;
+    }
+
+    public String getFullName(User user){
+        return user.getSurname() + " " + user.getName() + " " + user.getPatronymic();
     }
 }

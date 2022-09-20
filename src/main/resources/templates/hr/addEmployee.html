@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+</head>
+<style>
+    .input-group-text {
+        width: 40px;
+        height: 40px;
+        justify-content: center;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+</style>
+<body style="background: #edeef0">
+<header th:replace="blocks/headers :: hr-header"></header>
+
+
+<div class="row justify-content-md-center align-items-center center">
+    <div class="col-md-6">
+        <div class="card shadow">
+            <header class="card-header">
+                <h4 class="card-title mt-1" th:text="${id != null ? 'Изменение профиля' : 'Добавление сотрудника'}"></h4>
+            </header>
+            <article class="card-body mx-auto" style="max-width: 400px;">
+                <h4 class="card-title mt-3 text-center" th:text="${id != null ? 'Изменение профиля' : 'Создание нового профиля'}"></h4>
+
+
+                <!--ЛОГИН//-->
+                <form method="post" th:action="'/hr/employee/' + ${id != null ? 'edit/' + id : 'add'}">
+                    <div class="col-auto mb-4" th:object="${user}">
+                        <label class="sr-only" for="login">Логин</label>
+                        <div class="input-group mb-1">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <span class="material-icons">person</span>
+                                </div>
+                            </div>
+                            <input type="text" class="form-control" th:attr="readonly=${id != null}" id="login" placeholder="login123"
+                                   th:field="*{login}">
+                        </div>
+                        <span style="color: #dc3545"
+                              th:if="${#fields.hasErrors('login')}"
+                              th:errors="*{login}"></span>
+                    </div>
+                    <!-- ПАРОЛЬ// -->
+                    <div class="col-auto mb-4" th:object="${user}">
+                        <label class="sr-only" for="password">Пароль</label>
+
+                        <div class="input-group mb-1">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <span class="material-icons">password</span>
+                                </div>
+                            </div>
+                            <input type="password" class="form-control" th:attr="readonly=${id != null}" id="password" name="password"
+                                   placeholder="password123"
+                                   th:field="*{password}">
+                        </div>
+                        <span style="color: #dc3545"
+                              th:if="${#fields.hasErrors('password')}"
+                              th:errors="*{password}"></span>
+                    </div>
+                    <!-- ФАМИЛИЯ// -->
+                    <div class="col-auto mb-4" th:object="${user}">
+                        <label class="sr-only" for="surname">Фамилия</label>
+                        <div class="input-group mb-1">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <span class="material-icons">filter_1</span>
+                                </div>
+                            </div>
+                            <input type="text" class="form-control" id="surname" name="surname" placeholder="Иванов"
+                                   th:field="*{surname}">
+                        </div>
+                        <span style="color: #dc3545"
+                              th:if="${#fields.hasErrors('surname')}"
+                              th:errors="*{surname}"></span>
+                    </div>
+                    <!-- ИМЯ// -->
+                    <div class="col-auto mb-4" th:object="${user}">
+                        <label class="sr-only" for="name">Имя</label>
+                        <div class="input-group mb-1">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <span class="material-icons">filter_2</span>
+                                </div>
+                            </div>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Иван"
+                                   th:field="*{name}">
+                        </div>
+                        <span style="color: #dc3545"
+                              th:if="${#fields.hasErrors('name')}"
+                              th:errors="*{name}"></span>
+                    </div>
+                    <!-- ОТЧЕСТВО// -->
+                    <div class="col-auto mb-4" th:object="${user}">
+                        <label class="sr-only" for="patronymic">Отчество</label>
+                        <div class="input-group mb-1">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <span class="material-icons">filter_3</span>
+                                </div>
+                            </div>
+                            <input type="text" class="form-control" id="patronymic" name="patronymic"
+                                   placeholder="Иванович"
+                                   th:field="*{patronymic}">
+                        </div>
+                        <span style="color: #dc3545"
+                              th:if="${#fields.hasErrors('patronymic')}"
+                              th:errors="*{patronymic}"></span>
+                    </div>
+
+                    <!-- РОЛЬ// -->
+                    <div class="col-auto mb-4" th:object="${user}">
+                        <label class="sr-only" for="position">Должность сотрудника</label>
+                        <div class="input-group mb-1">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <span class="material-icons">work</span>
+                                </div>
+                            </div>
+                            <select id="position" class="form-select"
+                                    th:field="*{role}">
+                                <option th:value="${null}" selected>Выберите...</option>
+                                <option th:each="position : ${positions}"
+                                        th:value="${position.name()}"
+                                        th:text="${position.getDisplayedName()}"></option>
+                            </select>
+                        </div>
+                        <span style="color: #dc3545"
+                              th:if="${#fields.hasErrors('role')}"
+                              th:errors="*{role}"></span>
+
+                        <!-- ЗП// -->
+
+                        <div class="col-auto mb-4" th:object="${employee}">
+                            <label class="sr-only" for="salary">Зарплата сотрудника (руб.)</label>
+                            <div class="input-group mb-1">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <span class="material-icons">money</span>
+                                    </div>
+                                </div>
+                                <input type="text" class="form-control" id="salary" placeholder="45000"
+                                       th:field="*{salary}">
+                            </div>
+                            <span style="color: #dc3545"
+                                  th:if="${#fields.hasErrors('salary')}"
+                                  th:errors="*{salary}"></span>
+                        </div>
+
+                        <!-- КНОПКА// -->
+                        <div class="form-group text-center">
+                            <input type="submit" class="btn btn-primary btn-block" th:value="${id != null ? 'Сохранить' : 'Добавить'}"/>
+                        </div> <!-- form-group// -->
+                    </div> <!-- form-group// -->
+                </form>
+            </article>
+        </div>
+    </div>
+</div>
+</body>
+</html>

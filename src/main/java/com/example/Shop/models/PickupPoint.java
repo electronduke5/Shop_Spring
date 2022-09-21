@@ -19,10 +19,8 @@ public class PickupPoint {
     @Size(max = 255, message = "Максимальная длина - 255 символов")
     private String address;
 
-//    @NotNull(message = "Это обязательное поле")
     private Time start_time;
 
-//    @NotNull(message = "Это обязательное поле")
     private Time end_time;
 
     public PickupPoint() {

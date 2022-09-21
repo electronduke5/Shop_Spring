@@ -18,7 +18,7 @@ public class OrderItem {
 
     @ManyToOne
     @JoinColumn(name = "order_id", nullable = false)
-     CustomOrder order;
+    CustomOrder order;
 
     public OrderItem() {
     }

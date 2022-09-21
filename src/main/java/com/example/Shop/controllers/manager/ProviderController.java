@@ -26,7 +26,7 @@ public class ProviderController {
     ProductRepository productRepository;
 
     @GetMapping
-    public String getAllProvider(@RequestParam(value = "query", required = false) String query, Provider provider, Model model){
+    public String getAllProvider(@RequestParam(value = "query", required = false) String query, Provider provider, Model model) {
         Iterable<Provider> providers = providerRepository.findAll();
 
         if (query != null) {
@@ -41,14 +41,14 @@ public class ProviderController {
     }
 
     @PostMapping("")
-    public String addProvider(@ModelAttribute("provider") @Valid Provider provider, BindingResult bindingResult, Model model){
+    public String addProvider(@ModelAttribute("provider") @Valid Provider provider, BindingResult bindingResult, Model model) {
         Iterable<Provider> providers = providerRepository.findAll();
         List<Provider> providerList = new ArrayList<>();
         providers.forEach(providerList::add);
 
         model.addAttribute("models", providerList);
 
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return "manager/provider/provider_view";
         }
         providerRepository.save(provider);
@@ -56,7 +56,7 @@ public class ProviderController {
     }
 
     @GetMapping("/edit/{id}")
-    public String editProviderGet(@PathVariable("id") Long id, Model model){
+    public String editProviderGet(@PathVariable("id") Long id, Model model) {
         Optional<Provider> provider = providerRepository.findById(id);
         if (provider.isEmpty()) {
             return "redirect:/manager/providers";
@@ -67,7 +67,7 @@ public class ProviderController {
 
     @PostMapping("/edit/{id}")
     public String editProvider(@ModelAttribute("provider") @Valid Provider provider,
-                               BindingResult bindingResult){
+                               BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             return "manager/provider/edit";
@@ -77,11 +77,11 @@ public class ProviderController {
     }
 
     @PostMapping("delete/{id}")
-    public String deleteCategory(@PathVariable("id") Long id){
+    public String deleteCategory(@PathVariable("id") Long id) {
         Optional<Provider> provider = providerRepository.findById(id);
 
-        if(!provider.get().getProducts().isEmpty()){
-            for(Product product : provider.get().getProducts()){
+        if (!provider.get().getProducts().isEmpty()) {
+            for (Product product : provider.get().getProducts()) {
                 productRepository.deleteById(product.getId());
             }
         }

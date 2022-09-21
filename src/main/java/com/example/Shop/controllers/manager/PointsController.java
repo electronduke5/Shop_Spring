@@ -34,22 +34,23 @@ public class PointsController {
     }
 
     @GetMapping("/add")
-    public String addGet(PickupPoint point, Model model){
+    public String addGet(PickupPoint point, Model model) {
         model.addAttribute("point", point);
         return "manager/points/add";
     }
 
     @PostMapping("/add")
     public String addPoint(@ModelAttribute("point") @Valid PickupPoint point,
-                           BindingResult bindingResult, Model model){
-        if(bindingResult.hasErrors()){
+                           BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
             return "manager/points/add";
         }
         pointRepository.save(point);
         return "redirect:/manager/points";
     }
+
     @GetMapping("/edit/{id}")
-    public String editGet(@PathVariable("id") Long id, Model model){
+    public String editGet(@PathVariable("id") Long id, Model model) {
         Optional<PickupPoint> point = pointRepository.findById(id);
         if (point.isEmpty()) {
             return "redirect:/manager/points";
@@ -60,7 +61,7 @@ public class PointsController {
 
     @PostMapping("/edit/{id}")
     public String editPoint(@ModelAttribute("point") @Valid PickupPoint point,
-                               BindingResult bindingResult){
+                            BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             return "/manager/points/add";
@@ -70,7 +71,7 @@ public class PointsController {
     }
 
     @PostMapping("delete/{id}")
-    public String deleteCategory(@PathVariable("id") Long id){
+    public String deleteCategory(@PathVariable("id") Long id) {
         pointRepository.deleteById(id);
         return "redirect:/manager/points";
     }

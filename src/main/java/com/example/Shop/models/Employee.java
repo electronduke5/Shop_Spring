@@ -55,7 +55,7 @@ public class Employee {
         this.user = user;
     }
 
-    public String getFullName(){
+    public String getFullName() {
         return this.user.getSurname() + " " + this.user.getName() + " " + this.user.getPatronymic();
     }
 

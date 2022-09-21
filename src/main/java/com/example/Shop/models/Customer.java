@@ -13,7 +13,6 @@ public class Customer {
     @Column(name = "id_customer", unique = true, nullable = false)
     private Long id;
 
-
     private Integer points;
 
     @OneToOne(cascade = CascadeType.MERGE)
@@ -23,9 +22,9 @@ public class Customer {
     private User user;
 
     @ManyToMany
-    @JoinTable (name="customer_marks",
-            joinColumns=@JoinColumn (name="customer_id"),
-            inverseJoinColumns=@JoinColumn(name="product_id"))
+    @JoinTable(name = "customer_marks",
+            joinColumns = @JoinColumn(name = "customer_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id"))
     private List<Product> products;
 
     public Customer() {
@@ -69,7 +68,7 @@ public class Customer {
         this.products = products;
     }
 
-    public String getFullName(User user){
+    public String getFullName(User user) {
         return user.getSurname() + " " + user.getName() + " " + user.getPatronymic();
     }
 }

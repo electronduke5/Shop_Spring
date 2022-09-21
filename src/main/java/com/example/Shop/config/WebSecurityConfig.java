@@ -43,19 +43,6 @@ public class WebSecurityConfig{
                 .userDetailsService(userDetailsService()).build();
     }
 
-
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception{
-//        auth.jdbcAuthentication().dataSource().
-//                passwordEncoder(NoOpPasswordEncoder.getInstance()).
-//                usersByUsernameQuery("select login, password, 0 from user where login=?").
-//                authoritiesByUsernameQuery("login, role from user where login = ?");
-//
-//        auth.jdbcAuthentication().
-//                withUser("hr").
-//                password("hr").
-//                roles("HR");
-//    }
-
     @Bean
     UserDetailsService userDetailsService(){
         JdbcDaoImpl service = new JdbcDaoImpl();

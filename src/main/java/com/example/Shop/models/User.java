@@ -70,7 +70,7 @@ public class User {
         this.role = role;
     }
 
-    public User fromModel(User model){
+    public User fromModel(User model) {
         return new User(model.login, model.password, model.surname, model.name, model.patronymic, model.role);
     }
 
@@ -134,7 +134,7 @@ public class User {
         this.role = role;
     }
 
-    public String getFullName(User user){
+    public String getFullName(User user) {
         return user.getSurname() + " " + user.getName() + " " + user.getPatronymic();
     }
 }

@@ -34,7 +34,6 @@ public class EmployeeController {
         if (query != null) {
             if (!query.isBlank()) {
                 model.addAttribute("query", query);
-
                 employeesList = employeesList.stream().filter(employee -> employee.getFullName().toLowerCase().contains(query.toLowerCase())).toList();
             }
         }
@@ -99,11 +98,6 @@ public class EmployeeController {
 
         model.addAttribute("id", id);
 
-//        System.out.println("isHaveErrors: " + bindingResult.hasErrors());
-//        for (ObjectError error : bindingResult.getAllErrors().stream().toList()) {
-//            System.out.println("error: " + error);
-//        }
-
         Optional<User> profile = userRepository.findUserByLogin(user.getLogin());
         profile.get().setSurname(user.getSurname());
         profile.get().setName(user.getName());
@@ -124,7 +118,7 @@ public class EmployeeController {
     }
 
     @PostMapping("/delete/{id}")
-    public String deleteEmployee(@PathVariable("id") Long id){
+    public String deleteEmployee(@PathVariable("id") Long id) {
         Employee employee = employeeRepository.findEmployeeById(id);
         employeeRepository.deleteById(id);
         userRepository.deleteById(employee.getUser().getId());

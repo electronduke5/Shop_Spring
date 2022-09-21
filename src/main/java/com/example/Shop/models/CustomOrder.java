@@ -46,10 +46,7 @@ public class CustomOrder {
     private Double totalPrice;
 
     public Double getTotalPrice() {
-
-        Double result = 0.0;
-
-        return  getItemsPrice() - getItemsPrice() * (promoCode == null ? 0.0 : promoCode.getDiscontAmount()) / 100;
+        return getItemsPrice() - getItemsPrice() * (promoCode == null ? 0.0 : promoCode.getDiscontAmount()) / 100;
     }
 
     public Double getItemsPrice() {

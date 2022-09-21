@@ -46,7 +46,7 @@ public class Product {
     public Product() {
     }
 
-    public Product(String title, String description, Double price,  Integer count, Category category, Provider provider) {
+    public Product(String title, String description, Double price, Integer count, Category category, Provider provider) {
         this.title = title;
         this.description = description;
         this.price = price;

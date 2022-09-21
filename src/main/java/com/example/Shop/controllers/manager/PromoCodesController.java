@@ -40,7 +40,7 @@ public class PromoCodesController {
 
     @PostMapping("/add")
     public String addPromoCode(@ModelAttribute("promoCode") @Valid PromoCode promoCode,
-                               BindingResult bindingResult, Model model) {
+                               BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "manager/promocodes/add";
         }
@@ -72,17 +72,18 @@ public class PromoCodesController {
     }
 
     @PostMapping("/toggle/{id}")
-    public String togglePromoCode(@PathVariable("id") Long id, Model model){
+    public String togglePromoCode(@PathVariable("id") Long id) {
         Optional<PromoCode> promoCode = promocodeRepository.findById(id);
 
-        if(promoCode.isPresent()){
+        if (promoCode.isPresent()) {
             promoCode.get().setActive(!promoCode.get().getActive());
             promocodeRepository.save(promoCode.get());
         }
         return "redirect:/manager/promocodes";
     }
+
     @PostMapping("/delete/{id}")
-    public String deletePromoCode(@PathVariable("id") Long id){
+    public String deletePromoCode(@PathVariable("id") Long id) {
         promocodeRepository.deleteById(id);
         return "redirect:/manager/promocodes";
     }

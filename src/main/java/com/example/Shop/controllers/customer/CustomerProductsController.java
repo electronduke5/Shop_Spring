@@ -47,8 +47,7 @@ public class CustomerProductsController {
                 model.addAttribute("query", query);
                 productList = productList.stream().filter(
                         product -> product.getTitle().toLowerCase().contains(query.toLowerCase()) || product.getDescription().toLowerCase().contains(query.toLowerCase())).toList();
-            }
-            else if(categoryId != null) {
+            } else if (categoryId != null) {
                 productList = productList.stream().filter(product -> product.getCategory().getId().equals(categoryId)).toList();
             }
         }
@@ -57,18 +56,17 @@ public class CustomerProductsController {
     }
 
     @PostMapping("/addToCart/{id}")
-    public String addToCart(@PathVariable("id") Long productId, Principal user, Model model){
+    public String addToCart(@PathVariable("id") Long productId, Principal user, Model model) {
         Optional<Product> product = productRepository.findById(productId);
         Cart cart = cartRepository.findByCustomerUserLogin(user.getName());
         Customer customer = customerRepository.findByUser_Login(user.getName());
 
-        if(cart == null){
-            cartRepository.save(new Cart(customer,null,null));
+        if (cart == null) {
+            cartRepository.save(new Cart(customer, null, null));
         }
         CartItem productInCart = cart.addProduct(product.get());
         System.out.println("Product in cart: " + productInCart);
         cartItemRepository.save(productInCart);
         return "redirect:/customer/products";
-
     }
 }

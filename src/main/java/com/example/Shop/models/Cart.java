@@ -32,7 +32,7 @@ public class Cart {
     private Double totalPrice;
 
     public CartItem addProduct(Product product) {
-        if(items.size() == 0){
+        if (items.size() == 0) {
             return new CartItem(product, 1, this);
         }
         var existing = IntStream.range(0, items.size()).filter(index -> items.get(index).getProduct().getId().equals(product.getId())).findFirst();
@@ -47,10 +47,7 @@ public class Cart {
     }
 
     public Double getTotalPrice() {
-
-        Double result = 0.0;
-
-        return  getItemsPrice() - getItemsPrice() * (code == null ? 0.0 : code.getDiscontAmount()) / 100;
+        return getItemsPrice() - getItemsPrice() * (code == null ? 0.0 : code.getDiscontAmount()) / 100;
     }
 
     public Double getItemsPrice() {

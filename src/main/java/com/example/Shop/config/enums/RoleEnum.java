@@ -8,12 +8,10 @@ import java.util.List;
 
 public enum RoleEnum implements GrantedAuthority {
     User("Пользователь", false),
-    HR("Кадровый менеджер",  true),
-    Cashier( "Кассир", true),
-    Administrator( "Администратор", true),
-    Manager( "Менеджер товаров", true)
-
-    ;
+    HR("Кадровый менеджер", true),
+    Cashier("Кассир", true),
+    Administrator("Администратор", true),
+    Manager("Менеджер товаров", true);
     private final String displayedName;
     private final Boolean position;
 

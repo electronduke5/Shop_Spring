@@ -20,11 +20,10 @@ public class CustomerOrderController {
     OrderRepository orderRepository;
 
     @GetMapping
-    public String orderView(Principal user, Model model){
+    public String orderView(Principal user, Model model) {
         List<CustomOrder> orders = orderRepository.findByCustomerUserLogin(user.getName());
         model.addAttribute("models", orders);
 
         return "customer/order/order";
-
     }
 }

@@ -26,9 +26,6 @@ public class RegistrationController {
     @Autowired
     CustomerRepository customerRepository;
 
-//    @Autowired
-//    PasswordEncoder passwordEncoder;
-
     @GetMapping("/registration")
     public String registration(User user, Model model) {
 
@@ -39,14 +36,6 @@ public class RegistrationController {
     @PostMapping("/registration")
     public String registrationPost(@ModelAttribute("user") @Valid User user, BindingResult bindingResult) {
 
-        //List<RoleEnum> positions = RoleEnum.values();
-        //model.addAttribute("positions", positions);
-//        System.out.println("Surname: " + user.getSurname());
-//        System.out.println("name: " + user.getName());
-//        System.out.println("patro: " + user.getPatronymic());
-//        System.out.println("login: " + user.getLogin());
-//        System.out.println("password: " + user.getPassword());
-//        System.out.println("isHaveErrors: " + bindingResult.hasErrors());
         for (ObjectError error : bindingResult.getAllErrors().stream().toList()) {
             System.out.println("error: " + error);
         }
@@ -60,7 +49,7 @@ public class RegistrationController {
             bindingResult.rejectValue("login", "error.existing_login", "Данный логин уже занят");
             return "registration";
         }
-//        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
         user.setRole(RoleEnum.User);
         userRepository.save(user);
         Customer customer = new Customer(0, user, null);

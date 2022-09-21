@@ -1,9 +1,6 @@
 package com.example.Shop.controllers.customer;
 
-import com.example.Shop.models.Cart;
-import com.example.Shop.models.Category;
-import com.example.Shop.models.Customer;
-import com.example.Shop.models.Product;
+import com.example.Shop.models.*;
 import com.example.Shop.repo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -65,14 +62,12 @@ public class CustomerProductsController {
         Cart cart = cartRepository.findByCustomerUserLogin(user.getName());
         Customer customer = customerRepository.findByUser_Login(user.getName());
 
-        System.out.println("CART: " + cart);
-        System.out.println("Customer Name: " + customer.getFullName(customer.getUser()));
-        System.out.println("USERNAME: " + user.getName());
         if(cart == null){
             cartRepository.save(new Cart(customer,null,null));
         }
-
-        cartItemRepository.save(cart.addProduct(product.get()));
+        CartItem productInCart = cart.addProduct(product.get());
+        System.out.println("Product in cart: " + productInCart);
+        cartItemRepository.save(productInCart);
         return "redirect:/customer/products";
 
     }

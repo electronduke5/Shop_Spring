@@ -39,6 +39,7 @@ public class WebSecurityConfig{
                 .invalidateHttpSession(true)
                 .permitAll()
                 .and()
+                .exceptionHandling(httpSecurityExceptionHandlingConfigurer -> httpSecurityExceptionHandlingConfigurer.accessDeniedPage("/error"))
                 .userDetailsService(userDetailsService()).build();
     }
 

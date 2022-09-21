@@ -19,7 +19,7 @@ public class CustomOrder {
     private Date orderDate;
 
     @Enumerated(value = EnumType.STRING)
-    private StatusEnum status;
+    private StatusEnum status = StatusEnum.Processing;
 
     @ManyToOne
     @JoinColumn(name = "customer_id", referencedColumnName = "id_customer")
@@ -35,6 +35,39 @@ public class CustomOrder {
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.MERGE)
     private List<OrderItem> items;
+
+    @Transient
+    private Integer size;
+
+    @Transient
+    private Double itemsPrice;
+
+    @Transient
+    private Double totalPrice;
+
+    public Double getTotalPrice() {
+
+        Double result = 0.0;
+
+        return  getItemsPrice() - getItemsPrice() * (promoCode == null ? 0.0 : promoCode.getDiscontAmount()) / 100;
+    }
+
+    public Double getItemsPrice() {
+        double sum = 0;
+        for (var item : items) {
+            sum += item.getProduct().getPrice() * item.getCount();
+        }
+        System.out.println("getItemsPrice = " + sum);
+        return sum;
+    }
+
+    public Integer getSize() {
+        int size = 0;
+        for (var item : items) {
+            size += item.getCount();
+        }
+        return size;
+    }
 
     public CustomOrder() {
     }

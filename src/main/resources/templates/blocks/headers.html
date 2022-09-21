@@ -62,6 +62,7 @@
                                     th:classappend="${#httpServletRequest.getRequestURI() == '/manager/points' ? 'active':''}"
                                     th:href="@{/manager/points}"><span>Пункт ВЗ</span></a></li>
 
+
             <li class="nav-item">
                 <form th:action="@{/logout}" method="post">
                     <input type="submit" value="Выйти" class="btn btn-outline-danger">
@@ -87,6 +88,10 @@
             <li class="nav-item"><a
                     th:classappend="${#httpServletRequest.getRequestURI() == '/customer/cart' ? 'active':''}"
                     class="nav-link" th:href="@{/customer/cart}"><span>Корзина</span></a></li>
+
+            <li class="nav-item"><a
+                    th:classappend="${#httpServletRequest.getRequestURI() == '/customer/orders' ? 'active':''}"
+                    class="nav-link" th:href="@{/customer/orders}"><span>Мои заказы</span></a></li>
 
             <li class="nav-item">
                 <form th:action="@{/logout}" method="post">

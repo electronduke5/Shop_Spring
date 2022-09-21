@@ -1,16 +1,17 @@
 package com.example.Shop.controllers.customer;
 
+import com.example.Shop.config.enums.StatusEnum;
 import com.example.Shop.models.*;
 import com.example.Shop.repo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.security.Principal;
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -28,6 +29,10 @@ public class CustomerCartController {
     CartItemRepository cartItemRepository;
     @Autowired
     PointRepository pointRepository;
+    @Autowired
+    OrderRepository orderRepository;
+    @Autowired
+    OrederItemRepository orederItemRepository;
 
     @GetMapping
     public String viewCart(Principal user, Model model) {
@@ -68,8 +73,8 @@ public class CustomerCartController {
         Optional<CartItem> item = cartItemRepository.findById(itemId);
         Cart cart = cartRepository.findByCustomerUserLogin(user.getName());
 
-        if(item.get().getCount() < item.get().getProduct().getCount()){
-            item.get().setCount(item.get().getCount()+1);
+        if (item.get().getCount() < item.get().getProduct().getCount()) {
+            item.get().setCount(item.get().getCount() + 1);
         }
         cartItemRepository.save(item.get());
         return "redirect:/customer/cart";
@@ -80,11 +85,10 @@ public class CustomerCartController {
         Optional<CartItem> item = cartItemRepository.findById(itemId);
         Cart cart = cartRepository.findByCustomerUserLogin(user.getName());
 
-        item.get().setCount(item.get().getCount()-1);
-        if(item.get().getCount() <= 0){
+        item.get().setCount(item.get().getCount() - 1);
+        if (item.get().getCount() <= 0) {
             cartItemRepository.deleteById(itemId);
-        }
-        else{
+        } else {
             cartItemRepository.save(item.get());
         }
         return "redirect:/customer/cart";
@@ -99,14 +103,14 @@ public class CustomerCartController {
     }
 
     @GetMapping("/order")
-    public String getOrder(CustomOrder order, Principal user, Model model){
+    public String getOrder(Principal user, Model model) {
         Cart cart = cartRepository.findByCustomerUserLogin(user.getName());
-        if(cart.getSize() == 0){
+        System.out.println("CART total price= " + cart.getCode());
+        if (cart.getSize() == 0) {
             return "redirect:/customer/cart";
         }
 
         model.addAttribute("cart", cart);
-        model.addAttribute("order", order);
         Iterable<PickupPoint> points = pointRepository.findAll();
 
         model.addAttribute("points", points);
@@ -114,18 +118,37 @@ public class CustomerCartController {
     }
 
     @PostMapping("/order")
-    public String postOrder(@ModelAttribute("order") @Valid CustomOrder order,
-                            BindingResult bindingResult, Principal user, Model model){
+    public String postOrder(@RequestParam("pointId") Long pointId,
+                            Principal user, Model model) {
         Iterable<PickupPoint> points = pointRepository.findAll();
         Cart cart = cartRepository.findByCustomerUserLogin(user.getName());
         model.addAttribute("points", points);
-        if (bindingResult.hasErrors()) {
+        model.addAttribute("cart", cart);
+        if (pointId == null) {
             return "customer/cart/order";
         }
+        var point = pointRepository.findById(pointId).get();
+        var order = new CustomOrder(
+                new Date(),
+                StatusEnum.Processing,
+                cart.getCustomer(),
+                point,
+                cart.getCode(),
+                List.of()
+        );
+        System.out.println(cart.getItems().size());
+        cart.getItems().stream().peek(System.out::println);
+
+        var orderSav = orderRepository.save(order);
+        orederItemRepository.saveAll(
+                cart.getItems().stream()
+                        .map(cartItem -> new OrderItem(cartItem.getCount(), cartItem.getProduct(), orderSav))
+                        .toList()
+        );
+
         cart.setCode(null);
         cartItemRepository.deleteByCartId(cart.getId());
+
         return "redirect:/customer/orders";
-
-
     }
 }

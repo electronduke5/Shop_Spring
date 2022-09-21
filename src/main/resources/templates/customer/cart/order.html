@@ -12,8 +12,7 @@
 <div th:replace="blocks/headers :: customer-header(active='cart')"></div>
 <main>
   <form class="col-md-12 col-lg-12 justify-content-md-center align-items-center shadow bg-body rounded"
-        action="/cart/order" method="post"
-        th:object="${order}">
+        action="/customer/cart/order" method="post">
     <h4 class="mb-3">
       Оформление заказа
     </h4>
@@ -27,23 +26,20 @@
               <span class="material-icons">pin_drop</span>
             </div>
           </div>
-          <select id="position" class="form-select"
-                  th:field="*{pointId}">
+          <select id="position" class="form-select" name="pointId">
             <option th:value="${null}" selected>Выберите...</option>
             <option th:each="point : ${points}"
                     th:value="${point.id}"
                     th:text="${point.address}"></option>
           </select>
         </div>
-        <span class="sr-only" style="color: #dc3545"
-              th:if="${#fields.hasErrors('pointId')}"
-              th:errors="*{pointId}"></span>
+
       </div>
       <hr>
-      <h5 class="fw-normal" th:if="${cart.code != null}"
-          th:text="'Итого со скидкой: ' + ${cart.totalPrice} + ' руб. (-' + ${cart.code.percent} + '%)'"></h5>
+      <h5 class="fw-normal" th:if="${cart.getCode() != null}"
+          th:text="'Итого со скидкой: ' + ${cart.getTotalPrice()} + ' руб. (-' + ${cart.getCode().getDiscontAmount()} + '%)'"></h5>
       <p th:classappend="${cart.code != null ? 'text-muted text-decoration-line-through' : ''}"
-         th:text="'Итого: ' + ${cart.itemsPrice} + ' руб.'"></p>
+         th:text="'Итого: ' + ${cart.getItemsPrice()} + ' руб.'"></p>
       <hr>
       <div class="col-auto">
         <button type="submit" class="btn btn-primary w-100">

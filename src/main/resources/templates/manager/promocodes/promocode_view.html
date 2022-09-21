@@ -30,7 +30,7 @@
         <h3>Промокоды отсутствуют</h3>
     </div>
     <div class="row row-cols-1 row-cols-md-3">
-        <div class="col mb-4" th:each="promocode : ${models}">
+        <div class="col-auto mb-4" th:each="promocode : ${models}">
             <div class="card h-100 shadow">
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title" th:text="'Промокод: ' + ${promocode.code}"></h5>

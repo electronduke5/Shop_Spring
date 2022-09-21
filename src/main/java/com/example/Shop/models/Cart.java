@@ -2,6 +2,7 @@ package com.example.Shop.models;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.stream.IntStream;
 
 @Entity
 public class Cart {
@@ -31,12 +32,15 @@ public class Cart {
     private Double totalPrice;
 
     public CartItem addProduct(Product product) {
-        var existing = items.stream().filter(item1 -> item1.getProduct().getId().equals(product.getId())).toList();
-
-        if (!existing.isEmpty()) {
-            var ex = existing.stream().findFirst().get().getId().intValue();
-            items.get(ex).setCount(items.get(ex).getCount() + 1);
-            return existing.get(ex);
+        if(items.size() == 0){
+            return new CartItem(product, 1, this);
+        }
+        var existing = IntStream.range(0, items.size()).filter(index -> items.get(index).getProduct().getId().equals(product.getId())).findFirst();
+        if (existing.isPresent()) {
+            var item = new CartItem(product, items.get(existing.getAsInt()).getCount() + 1, this);
+            item.setId(items.get(existing.getAsInt()).getId());
+            items.set(existing.getAsInt(), item);
+            return items.get(existing.getAsInt());
         } else {
             return new CartItem(product, 1, this);
         }

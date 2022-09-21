@@ -23,7 +23,8 @@ public class CustomerOrderController {
     public String orderView(Principal user, Model model){
         List<CustomOrder> orders = orderRepository.findByCustomerUserLogin(user.getName());
         model.addAttribute("models", orders);
-        return "customer/cart/order";
+
+        return "customer/order/order";
 
     }
 }

@@ -39,7 +39,7 @@
     <h5 th:text="'Итого с промокодом: ' + ${cart.totalPrice} + ' руб.'"
         th:if="${cart.code != null}"></h5>
     <div class="col-auto" th:if="${cart.size != 0}">
-        <a class="btn btn-primary" href="/customer/orders" role="button">
+        <a class="btn btn-primary" href="/customer/cart/order" role="button">
             Оформить заказ
         </a>
     </div>
@@ -48,7 +48,7 @@
         <h3>Вы еще не добавили ни одного элемента в корзину</h3>
     </div>
     <div class="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-3">
-        <div class="col mb-4" th:each="item : ${cart.items}">
+        <div class="col-auto mb-4" th:each="item : ${cart.items}">
             <div class="card h-100 shadow">
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title" th:text="${item.getProduct().getTitle()} + ' (' + ${item.getCount()} + ' шт.)'"></h5>

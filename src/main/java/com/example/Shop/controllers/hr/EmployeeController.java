@@ -35,7 +35,7 @@ public class EmployeeController {
             if (!query.isBlank()) {
                 model.addAttribute("query", query);
 
-                employeesList = employeesList.stream().filter((employee -> employee.getFullName().toLowerCase().contains((query.toLowerCase())))).toList();
+                employeesList = employeesList.stream().filter(employee -> employee.getFullName().toLowerCase().contains(query.toLowerCase())).toList();
             }
         }
 

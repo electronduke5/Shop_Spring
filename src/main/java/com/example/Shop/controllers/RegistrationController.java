@@ -75,8 +75,7 @@ public class RegistrationController {
         if (role.isPresent()) {
             switch (role.get()) {
                 case User:
-                    return "redirect:/customer";
-
+                    return "redirect:/customer/products";
                 case HR:
                     return "redirect:/hr/employee";
                 case Manager:

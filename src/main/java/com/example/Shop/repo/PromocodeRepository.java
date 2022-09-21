@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface PromocodeRepository extends CrudRepository<PromoCode, Long> {
     List<PromoCode> findPromoCodeByCode(String code);
+
+    PromoCode findByCode(String code);
 }

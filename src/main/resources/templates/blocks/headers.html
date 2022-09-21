@@ -10,7 +10,7 @@
 <body>
 <div class="container vw-100" th:fragment="hr-header">
     <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
-        <a href="/employee" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+        <a href="/templates/hr/main" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
             <span class="fs-4">Магазин "Чего-нибудь"</span>
             <img src="https://wakatime.com/badge/user/91a8ac21-42b3-47a5-99ad-4d5dde8f7a90/project/286b1466-6dc4-4ea2-9368-fba638da6218.svg"
                  alt="wakatime">
@@ -20,11 +20,10 @@
             <li class="nav-item"><a
                     th:classappend="${#httpServletRequest.getRequestURI() == '/hr/employee' ? 'active':''}"
                     class="nav-link" th:href="@{/hr/employee}"><span>Все сотрудники</span></a></li>
-            <!--        <li class="nav-item"><a href="/position/" class="nav-link active">Должности</a></li>-->
+
             <li class="nav-item"><a class="nav-link"
                                     th:classappend="${#httpServletRequest.getRequestURI() == '/hr/employee/add' ? 'active':''}"
                                     th:href="@{/hr/employee/add}"><span>Добавить сотрудника</span></a></li>
-            <!--        <li class="nav-item"><a href="/position/add" class="nav-link">Доавить должность</a></li>-->
 
             <li class="nav-item">
                 <form th:action="@{/logout}" method="post">
@@ -37,7 +36,7 @@
 
 <div class="container " th:fragment="manager-header">
     <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
-        <a href="/employee" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+        <a href="/templates/manager/categories/category_view" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
             <span class="fs-4">Магазин "Чего-нибудь"</span>
             <img src="https://wakatime.com/badge/user/91a8ac21-42b3-47a5-99ad-4d5dde8f7a90/project/286b1466-6dc4-4ea2-9368-fba638da6218.svg"
                  alt="wakatime">
@@ -51,7 +50,7 @@
             <li class="nav-item"><a
                     th:classappend="${#httpServletRequest.getRequestURI() == '/manager/products' ? 'active':''}"
                     class="nav-link" th:href="@{/manager/products}"><span>Товары</span></a></li>
-            <!--        <li class="nav-item"><a href="/position/" class="nav-link active">Должности</a></li>-->
+
             <li class="nav-item"><a class="nav-link"
                                     th:classappend="${#httpServletRequest.getRequestURI() == '/manager/providers' ? 'active':''}"
                                     th:href="@{/manager/providers}"><span>Поставщики</span></a></li>
@@ -59,7 +58,35 @@
             <li class="nav-item"><a class="nav-link"
                                     th:classappend="${#httpServletRequest.getRequestURI() == '/manager/promocodes' ? 'active':''}"
                                     th:href="@{/manager/promocodes}"><span>Промокоды</span></a></li>
-            <!--        <li class="nav-item"><a href="/position/add" class="nav-link">Доавить должность</a></li>-->
+            <li class="nav-item"><a class="nav-link"
+                                    th:classappend="${#httpServletRequest.getRequestURI() == '/manager/points' ? 'active':''}"
+                                    th:href="@{/manager/points}"><span>Пункт ВЗ</span></a></li>
+
+            <li class="nav-item">
+                <form th:action="@{/logout}" method="post">
+                    <input type="submit" value="Выйти" class="btn btn-outline-danger">
+                </form>
+            </li>
+        </ul>
+    </header>
+</div>
+
+<div class="container " th:fragment="customer-header">
+    <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+        <a href="../customer/products" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+            <span class="fs-4">Магазин "Чего-нибудь"</span>
+            <img src="https://wakatime.com/badge/user/91a8ac21-42b3-47a5-99ad-4d5dde8f7a90/project/286b1466-6dc4-4ea2-9368-fba638da6218.svg"
+                 alt="wakatime">
+        </a>
+
+        <ul class="nav nav-pills">
+            <li class="nav-item"><a
+                    th:classappend="${#httpServletRequest.getRequestURI() == '/customer/products' ? 'active':''}"
+                    class="nav-link" th:href="@{/customer/products}"><span>Товары</span></a></li>
+
+            <li class="nav-item"><a
+                    th:classappend="${#httpServletRequest.getRequestURI() == '/customer/cart' ? 'active':''}"
+                    class="nav-link" th:href="@{/customer/cart}"><span>Корзина</span></a></li>
 
             <li class="nav-item">
                 <form th:action="@{/logout}" method="post">

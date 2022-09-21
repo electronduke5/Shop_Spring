@@ -43,23 +43,21 @@ public class CategoriesController {
         return "manager/categories/category_view";
     }
 
-
-
     @PostMapping("")
-    public String addCategory(@ModelAttribute("category") @Valid Category category, BindingResult bindingResult, Model model){
+    public String addCategory(@ModelAttribute("category") @Valid Category category, BindingResult bindingResult, Model model) {
         Iterable<Category> categories = categoryRepository.findAll();
         List<Category> categoryList = new ArrayList<Category>();
         categories.forEach(categoryList::add);
 
         model.addAttribute("models", categoryList);
 
-        if(!categoryList.stream().filter(category1 -> category1.getCategory_name().equals(category.getCategory_name())).toList().isEmpty()){
+        if (!categoryList.stream().filter(category1 -> category1.getCategory_name().equals(category.getCategory_name())).toList().isEmpty()) {
 
             bindingResult.rejectValue("category_name", "error.existing_category", "Данная категория уже существует");
             return "manager/categories/category_view";
         }
 
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return "manager/categories/category_view";
         }
 
@@ -68,7 +66,7 @@ public class CategoriesController {
     }
 
     @GetMapping("/edit/{id}")
-    public String editCategoryGet(@PathVariable("id") Long id, Model model){
+    public String editCategoryGet(@PathVariable("id") Long id, Model model) {
         Optional<Category> category = categoryRepository.findById(id);
         if (category.isEmpty()) {
             return "redirect:/manager/categories";
@@ -79,21 +77,21 @@ public class CategoriesController {
 
     @PostMapping("/edit/{id}")
     public String editCategory(@ModelAttribute("category") @Valid Category category,
-                               BindingResult bindingResult){
+                               BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "manager/categories/edit";
         }
-            categoryRepository.save(category);
+        categoryRepository.save(category);
         return "redirect:/manager/categories";
     }
 
     @PostMapping("delete/{id}")
-    public String deleteCategory(@PathVariable("id") Long id){
+    public String deleteCategory(@PathVariable("id") Long id) {
 
         Optional<Category> category = categoryRepository.findById(id);
 
-        if(!category.get().getProducts().isEmpty()){
-            for(Product product : category.get().getProducts()){
+        if (!category.get().getProducts().isEmpty()) {
+            for (Product product : category.get().getProducts()) {
                 productRepository.deleteById(product.getId());
             }
         }

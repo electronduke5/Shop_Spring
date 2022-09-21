@@ -8,5 +8,6 @@ import java.util.List;
 public interface CustomerRepository extends CrudRepository<Customer, Long> {
 
     List<Customer> findCustomerById(Long id);
+    Customer findByUser_Login(String login);
 
 }

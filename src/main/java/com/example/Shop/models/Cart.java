@@ -21,6 +21,51 @@ public class Cart {
     @JoinColumn(name = "code_id")
     private PromoCode code;
 
+    @Transient
+    private Integer size;
+
+    @Transient
+    private Double itemsPrice;
+
+    @Transient
+    private Double totalPrice;
+
+    public CartItem addProduct(Product product) {
+        var existing = items.stream().filter(item1 -> item1.getProduct().getId().equals(product.getId())).toList();
+
+        if (!existing.isEmpty()) {
+            var ex = existing.stream().findFirst().get().getId().intValue();
+            items.get(ex).setCount(items.get(ex).getCount() + 1);
+            return existing.get(ex);
+        } else {
+            return new CartItem(product, 1, this);
+        }
+    }
+
+    public Double getTotalPrice() {
+
+        Double result = 0.0;
+
+        return  getItemsPrice() - getItemsPrice() * (code == null ? 0.0 : code.getDiscontAmount()) / 100;
+    }
+
+    public Double getItemsPrice() {
+        double sum = 0;
+        for (var item : items) {
+            sum += item.getProduct().getPrice() * item.getCount();
+        }
+        System.out.println("getItemsPrice = " + sum);
+        return sum;
+    }
+
+    public Integer getSize() {
+        int size = 0;
+        for (var item : items) {
+            size += item.getCount();
+        }
+        return size;
+    }
+
     public Cart() {
     }
 
